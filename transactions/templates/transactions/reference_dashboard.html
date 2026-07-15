@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% block title %}Справочники{% endblock %}
+
+{% block content %}
+<h1 class="h3 mb-4">Справочники</h1>
+
+<ul class="nav nav-tabs mb-3">
+    <li class="nav-item">
+        <a class="nav-link {% if active_tab == 'status' %}active{% endif %}" href="?tab=status">Статусы</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {% if active_tab == 'type' %}active{% endif %}" href="?tab=type">Типы</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {% if active_tab == 'category' %}active{% endif %}" href="?tab=category">Категории</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {% if active_tab == 'subcategory' %}active{% endif %}" href="?tab=subcategory">Подкатегории</a>
+    </li>
+</ul>
+
+{% if active_tab == 'status' %}
+<a href="{% url 'transactions:reference-create' 'status' %}" class="btn btn-primary mb-3">+ Добавить статус</a>
+<table class="table table-striped">
+    <thead><tr><th>Название</th><th></th></tr></thead>
+    <tbody>
+        {% for item in statuses %}
+        <tr>
+            <td>{{ item.name }}</td>
+            <td class="text-end text-nowrap">
+                <a href="{% url 'transactions:reference-update' 'status' item.pk %}" class="btn btn-sm btn-outline-primary">Изменить</a>
+                <form method="post" action="{% url 'transactions:reference-delete' 'status' item.pk %}" class="d-inline" onsubmit="return confirm('Удалить «{{ item.name }}»?');">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-sm btn-outline-danger">Удалить</button>
+                </form>
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="2" class="text-muted text-center">Пусто</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+
+{% if active_tab == 'type' %}
+<a href="{% url 'transactions:reference-create' 'type' %}" class="btn btn-primary mb-3">+ Добавить тип</a>
+<table class="table table-striped">
+    <thead><tr><th>Название</th><th></th></tr></thead>
+    <tbody>
+        {% for item in types %}
+        <tr>
+            <td>{{ item.name }}</td>
+            <td class="text-end text-nowrap">
+                <a href="{% url 'transactions:reference-update' 'type' item.pk %}" class="btn btn-sm btn-outline-primary">Изменить</a>
+                <form method="post" action="{% url 'transactions:reference-delete' 'type' item.pk %}" class="d-inline" onsubmit="return confirm('Удалить «{{ item.name }}»?');">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-sm btn-outline-danger">Удалить</button>
+                </form>
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="2" class="text-muted text-center">Пусто</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+
+{% if active_tab == 'category' %}
+<a href="{% url 'transactions:reference-create' 'category' %}" class="btn btn-primary mb-3">+ Добавить категорию</a>
+<table class="table table-striped">
+    <thead><tr><th>Название</th><th>Тип</th><th></th></tr></thead>
+    <tbody>
+        {% for item in categories %}
+        <tr>
+            <td>{{ item.name }}</td>
+            <td>{{ item.type.name }}</td>
+            <td class="text-end text-nowrap">
+                <a href="{% url 'transactions:reference-update' 'category' item.pk %}" class="btn btn-sm btn-outline-primary">Изменить</a>
+                <form method="post" action="{% url 'transactions:reference-delete' 'category' item.pk %}" class="d-inline" onsubmit="return confirm('Удалить «{{ item.name }}»?');">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-sm btn-outline-danger">Удалить</button>
+                </form>
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="3" class="text-muted text-center">Пусто</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+
+{% if active_tab == 'subcategory' %}
+<a href="{% url 'transactions:reference-create' 'subcategory' %}" class="btn btn-primary mb-3">+ Добавить подкатегорию</a>
+<table class="table table-striped">
+    <thead><tr><th>Название</th><th>Категория</th><th>Тип</th><th></th></tr></thead>
+    <tbody>
+        {% for item in subcategories %}
+        <tr>
+            <td>{{ item.name }}</td>
+            <td>{{ item.category.name }}</td>
+            <td>{{ item.category.type.name }}</td>
+            <td class="text-end text-nowrap">
+                <a href="{% url 'transactions:reference-update' 'subcategory' item.pk %}" class="btn btn-sm btn-outline-primary">Изменить</a>
+                <form method="post" action="{% url 'transactions:reference-delete' 'subcategory' item.pk %}" class="d-inline" onsubmit="return confirm('Удалить «{{ item.name }}»?');">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-sm btn-outline-danger">Удалить</button>
+                </form>
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="4" class="text-muted text-center">Пусто</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+{% endblock %}

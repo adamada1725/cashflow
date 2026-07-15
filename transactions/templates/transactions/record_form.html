@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<h1 class="h3 mb-4">{{ title }}</h1>
+
+<form method="post" class="col-lg-6" novalidate>
+    {% csrf_token %}
+
+    {% if form.non_field_errors %}
+    <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+    {% endif %}
+
+    <div class="mb-3">
+        <label class="form-label" for="{{ form.created_at.id_for_label }}">{{ form.created_at.label }}</label>
+        {{ form.created_at }}
+        {{ form.created_at.errors }}
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label" for="{{ form.status.id_for_label }}">{{ form.status.label }}</label>
+        {{ form.status }}
+        {{ form.status.errors }}
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label" for="{{ form.type.id_for_label }}">{{ form.type.label }}</label>
+        {{ form.type }}
+        {{ form.type.errors }}
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label" for="{{ form.category.id_for_label }}">{{ form.category.label }}</label>
+        {{ form.category }}
+        {{ form.category.errors }}
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label" for="{{ form.subcategory.id_for_label }}">{{ form.subcategory.label }}</label>
+        {{ form.subcategory }}
+        {{ form.subcategory.errors }}
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label" for="{{ form.amount.id_for_label }}">{{ form.amount.label }}</label>
+        {{ form.amount }}
+        {{ form.amount.errors }}
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label" for="{{ form.comment.id_for_label }}">{{ form.comment.label }}</label>
+        {{ form.comment }}
+        {{ form.comment.errors }}
+    </div>
+
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+    <a href="{% url 'transactions:record-list' %}" class="btn btn-outline-secondary">Отмена</a>
+</form>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/cascading_selects.js' %}"></script>
+{% endblock %}
